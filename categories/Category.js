@@ -12,4 +12,7 @@ const Category = connection.define('categories', {
     }
 });
 
+// force syncro with the database
+//Category.sync({force:true});
+
 module.exports = Category;
