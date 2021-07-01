@@ -34,7 +34,10 @@ app.use("/", articlesController);
 app.get("/", function(req,res){
 
     //res.send("Bem vindo ao meu blog");
-    res.render("index.ejs");
+    Article.findAll().then( articles => {
+        res.render("index.ejs",{articles: articles});
+    });
+    
 });
 
 app.listen(8080,function(req,res){
