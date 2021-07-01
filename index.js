@@ -40,6 +40,27 @@ app.get("/", function(req,res){
     
 });
 
+app.get("/:slug", function(req,res){
+
+    var slug = req.params.slug;
+    Article.findOne({
+        where: {
+            slug: slug
+        }
+    }).then(article => {
+
+        if( article != undefined){
+            
+            res.render("article.ejs", {article: article});
+        }else {
+
+            res.redirect("/");
+        }
+    }).catch( err => {
+        res.redirect("/");
+    });
+});
+
 app.listen(8080,function(req,res){
     console.log("O servidor está rodando");
 });
