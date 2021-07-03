@@ -34,8 +34,17 @@ app.use("/", articlesController);
 app.get("/", function(req,res){
 
     //res.send("Bem vindo ao meu blog");
-    Article.findAll().then( articles => {
-        res.render("index.ejs",{articles: articles});
+    Article.findAll({
+        order: [
+            ['id','DESC']
+        ]
+    }).then( articles => {
+
+        Category.findAll().then(categories => {
+            res.render("index.ejs",{articles: articles,categories: categories });
+        });
+
+        
     });
     
 });
@@ -49,9 +58,10 @@ app.get("/:slug", function(req,res){
         }
     }).then(article => {
 
-        if( article != undefined){
-            
-            res.render("article.ejs", {article: article});
+        if( article != undefined){                    
+            Category.findAll().then(categories => {
+                res.render("article.ejs",{article: article,categories: categories });
+            });
         }else {
 
             res.redirect("/");
