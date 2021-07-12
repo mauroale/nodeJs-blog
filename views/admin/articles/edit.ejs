@@ -10,9 +10,9 @@
         </div>
 
         <div class="card-body">
-            <form  action="/articles/save" method="POST">
-
-                <input class="form-control" type="text" name="title" placeholder="Titulo do Artigo"> <br >
+            <form  action="/articles/update" method="POST">
+                <input type="hidden" value="<%= article.id %>" name="id"> 
+                <input class="form-control" type="text" name="title" placeholder="Titulo do Artigo" value="<%= article.title %>"> <br >
                 <textarea class="form-control" placeholder="Escreva o artigo aqui" name="body" id="article"></textarea><br >
 
                 <label>Categoria</label>
