@@ -44,7 +44,6 @@ app.get("/", function(req,res){
             res.render("index.ejs",{articles: articles,categories: categories });
         });
 
-        
     });
     
 });
@@ -94,5 +93,5 @@ app.get("/category/:slug", function(req,res){
 });
 
 app.listen(8080,function(req,res){
-    console.log("O servidor está rodando");
+    console.log("O servidor está rodando na porta 8080");
 });
