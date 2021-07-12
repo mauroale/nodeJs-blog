@@ -71,6 +71,28 @@ app.get("/:slug", function(req,res){
     });
 });
 
+
+app.get("/category/:slug", function(req,res){
+    var slug = req.params.slug;
+    Category.findOne({
+        where: {
+            slug: slug
+        },
+        include: [{model: Article}]
+    }).then( category => {
+        if( category != undefined){
+
+            Category.findAll().then(categories => {
+                res.render("index", {articles: category.articles, categories: categories })
+            });
+        }else {
+            res.redirect("/");
+        }
+    }).catch( err => {
+        res.redirect("/");
+    })
+});
+
 app.listen(8080,function(req,res){
     console.log("O servidor está rodando");
 });
