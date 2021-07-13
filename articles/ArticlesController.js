@@ -3,6 +3,7 @@ const router = express.Router();
 const Category = require("../categories/Category");
 const Article = require("./Article");
 const slugify = require("slugify");
+const { response } = require("express");
 
 router.get("/admin/articles",function(req,res){
     Article.findAll({
@@ -108,6 +109,57 @@ router.post("/articles/update", function(req,res){
         } ).catch( err => {
             res.redirect("/");
         });
+});
+
+
+router.get("/articles/page/:num", function(req,res){
+    
+    var page = req.params.num;
+    var offset =  0;
+    
+    if( isNaN(page) || page == 1) {
+        offset = 0;        
+    } else {
+        offset =  (parseInt( page ) -1) * 4 ;
+    }
+    
+    
+    Article.findAndCountAll({
+        limit: 4,
+        offset: offset,
+        order: [
+            ["id","DESC"]
+        ]
+    
+    }).then( articles => {
+        
+        var next ;
+        if ( offset + 4 >= articles.count ) {
+
+            next = false;
+            
+        } else {
+            
+            next = true;
+        }
+
+        var result = {
+            page: parseInt(page),
+            next: next,
+            articles: articles
+        } ;
+        
+        Category.findAll().then(categories => {
+
+            res.render("admin/articles/page.ejs", {result:result, categories: categories});
+        });
+
+        
+    
+    }).catch({
+
+    });
+
 });
 
 module.exports = router;
