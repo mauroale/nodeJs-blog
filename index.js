@@ -4,9 +4,11 @@ const bodyParser = require("body-parser");
 const connection = require("./database/database.js");
 const categoriesController = require("./categories/CategoriesController.js");
 const articlesController = require("./articles/articlesController.js");
+const usersController = require("./user/UsersController.js");
 
 const Article = require("./articles/Article.js") ;
 const Category = require("./categories/Category.js");
+const User = require("./user/User.js");
 
 // Configurando a View Engine
 app.set('view engine', 'ejs');
@@ -30,6 +32,7 @@ connection
 // use categoriesController routes
 app.use("/", categoriesController);
 app.use("/", articlesController);
+app.use("/", usersController);
 
 app.get("/", function(req,res){
 
